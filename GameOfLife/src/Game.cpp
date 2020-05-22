@@ -100,11 +100,6 @@ FILE_STATUS Game::LoadGame(const char* file)
 		{
 			Game tmpGame(tmpWidth, tmpHeight);
 
-			std::cout << tmpGame.GetWidth() << std::endl;
-			std::cout << tmpGame.GetHeight() << std::endl;
-
-			getchar();
-
 			for (int y = 0; y < GetHeight(); y++)
 			{
 				for (int x = 0; x < GetWidth(); x++)
@@ -115,8 +110,6 @@ FILE_STATUS Game::LoadGame(const char* file)
 
 					inFile.ignore(1, ',');
 				}
-
-				
 			}
 
 			cellMap = tmpGame.cellMap;
@@ -159,7 +152,7 @@ void Game::Info()
 {
 	gotoXY(0, GetHeight() + 1);
 
-	std::cout << "Generation: " << deltaTime << std::endl;
+	std::cout << "Generation: " << generation << std::endl;
 }
 
 // Getters
