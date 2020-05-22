@@ -10,7 +10,7 @@ enum CELL_STATE
 class Game
 {
 public:
-	Game(unsigned width, unsigned height);
+	Game(int width, int height);
 
 	void Reset();
 	void Random();
@@ -18,15 +18,15 @@ public:
 	void ShowMap();
 
 	// Getters
-	bool GetState(unsigned int x, unsigned int y);
-	unsigned int GetWidth();
-	unsigned int GetHeight();
-	unsigned int GetNeighbors(unsigned int x, unsigned int y);
+	bool GetState(int x, int y);
+	int GetWidth();
+	int GetHeight();
+	int GetNeighbors(int x, int y);
 
 	// Setters
-	void SetState(unsigned int x, unsigned int y, bool state);
+	void SetState(int x, int y, bool state);
 protected:
-	unsigned width, height;
+	int width, height;
 
 	std::vector<std::vector<bool>> cellMap;
 

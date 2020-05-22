@@ -2,7 +2,7 @@
 
 #include "Game.h"
 
-Game::Game(unsigned width, unsigned height)
+Game::Game(int width, int height)
 {
 	this->width = width;
 	this->height = height;
@@ -47,12 +47,12 @@ void Game::SimulationStep()
 			neighbors = GetNeighbors(x, y);
 
 			// Rules
-			if (neighbors == 2 || neighbors == 3)
-				SetState(x, y, CELL_ALIVE);
+			if ((neighbors == 2 || neighbors == 3) && GetState(x, y))
+				tmp.SetState(x, y, CELL_ALIVE);
 			else if (neighbors == 3)
-				SetState(x, y, CELL_ALIVE);
+				tmp.SetState(x, y, CELL_ALIVE);
 			else
-				SetState(x, y, CELL_DEAD);
+				tmp.SetState(x, y, CELL_DEAD);
 		}
 	}
 
@@ -80,11 +80,11 @@ void Game::ShowMap()
 }
 
 // Getters
-bool Game::GetState(unsigned int x, unsigned int y) { return cellMap[x][y]; }
-unsigned int Game::GetWidth() { return width; }
-unsigned int Game::GetHeight() { return height; }
+bool Game::GetState(int x, int y) { return cellMap[x][y]; }
+int Game::GetWidth() { return width; }
+int Game::GetHeight() { return height; }
 
-unsigned int Game::GetNeighbors(unsigned int x, unsigned int y)
+int Game::GetNeighbors(int x, int y)
 {
 	int count = 0;
 	for (int i = -1; i < 2; i++)
@@ -94,14 +94,14 @@ unsigned int Game::GetNeighbors(unsigned int x, unsigned int y)
 			int neighbor_x = x + i;
 			int neighbor_y = y + j;
 
-			if (i == 0 && j == 0)
+			if ((i == 0 && j == 0) || (neighbor_x < 0 || neighbor_y < 0 || neighbor_x >= GetWidth() || neighbor_y >= GetHeight()))
 			{
 				// Skip current cell
 			}
 			// Edge of the map
 			else if (neighbor_x < 0 || neighbor_y < 0 || neighbor_x >= GetWidth() || neighbor_y >= GetHeight())
 			{
-				count++;
+				// Skip edge
 			}
 			// Inside of the map
 			else if (GetState(neighbor_x, neighbor_y))
@@ -115,4 +115,4 @@ unsigned int Game::GetNeighbors(unsigned int x, unsigned int y)
 }
 
 // Setters
-void Game::SetState(unsigned int x, unsigned int y, bool state) { cellMap[x][y] = state; }
+void Game::SetState(int x, int y, bool state) { cellMap[x][y] = state; }
