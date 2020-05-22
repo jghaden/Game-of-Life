@@ -1,6 +1,12 @@
 #pragma once
 #include "PCH.h"
 
+enum CELL_STATE
+{
+	CELL_DEAD = false,
+	CELL_ALIVE = true
+};
+
 class Game
 {
 public:
