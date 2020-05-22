@@ -4,11 +4,11 @@
 
 int main(void)
 {
-	SetWindowSize(680, 695);
+	SetWindowSize(845, 900);
 	SetFontSize(12, 12);
 	ShowConsoleCursor(false);
 
-	Game game(80, 40);
+	Game game(100, 50);
 
 	while (true)
 	{
@@ -26,18 +26,26 @@ int main(void)
 
 		//game.SetState(40, 12, CELL_ALIVE);
 
+		//game.LoadGame("games/test.bin");
+
 		game.Random();
 
-		for (int i = 0; i < 100; i++)
+		//getchar(); // FOR OBS
+
+		for (int i = 0; i < 1000; i++)
 		{
 			game.ShowMap();
 
 			//getchar();
 
 			game.SimulationStep();
+
+			game.Info();
 		}
 
 		game.Reset();
+
+		ClearScreen();
 	}
 
 	return 0;

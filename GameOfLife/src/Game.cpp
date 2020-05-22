@@ -118,21 +118,26 @@ FILE_STATUS Game::LoadGame(const char* file)
 
 void Game::ShowMap()
 {
+	std::string out;
+
 	for (int y = 0; y < GetHeight(); y++)
 	{
+		out = "";
 		for (int x = 0; x < GetWidth(); x++)
 		{
 			if (GetState(x, y))
 			{
-				WriteAt(x, y, 'Û');
+				//WriteAt(x, y, 'Û');
+				out += 'Û';
 			}
 			else
 			{
-				WriteAt(x, y, ' ');
+				//WriteAt(x, y, ' ');
+				out += ' ';
 			}
 		}
 
-		std::cout << std::endl;
+		WriteAt(0, y, out);
 	}
 }
 
