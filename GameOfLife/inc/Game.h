@@ -39,7 +39,12 @@ private:
 
 	std::vector<std::vector<bool>> cellMap;
 
+	float deltaTicks, deltaTime;
+	std::clock_t previousTicks;
+	std::clock_t currentTicks;
+
 	void Init();
+	float Time();
 
 	void SetWidth(int width);
 	void SetHeight(int height);

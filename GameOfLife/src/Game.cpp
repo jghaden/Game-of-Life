@@ -16,6 +16,20 @@ void Game::Init()
 
 	cellMap.clear();
 	cellMap.resize(height, std::vector<bool>(width, CELL_DEAD));
+
+	previousTicks = std::clock();
+}
+
+float Game::Time()
+{
+	// Calculate time between each draw
+	currentTicks = std::clock();
+	deltaTicks = (float)(currentTicks - previousTicks);
+	previousTicks = currentTicks;
+
+	deltaTime = (deltaTicks / (float)CLOCKS_PER_SEC);
+
+	return deltaTime;
 }
 
 void Game::SetWidth(int width) { this->width = width; }
@@ -145,7 +159,7 @@ void Game::Info()
 {
 	gotoXY(0, GetHeight() + 1);
 
-	std::cout << "Generation: " << generation << std::endl;
+	std::cout << "Generation: " << deltaTime << std::endl;
 }
 
 // Getters
