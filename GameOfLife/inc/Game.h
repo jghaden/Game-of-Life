@@ -7,6 +7,13 @@ enum CELL_STATE
 	CELL_ALIVE = true
 };
 
+enum FILE_STATUS
+{
+	NOT_FOUND,
+	MAP_SIZE_FAIL,
+	LOADED
+};
+
 class Game
 {
 public:
@@ -15,6 +22,7 @@ public:
 	void Reset();
 	void Random();
 	void SimulationStep();
+	FILE_STATUS LoadGame(const char* file);
 	void ShowMap();
 
 	// Getters
@@ -25,10 +33,13 @@ public:
 
 	// Setters
 	void SetState(int x, int y, bool state);
-protected:
+private:
 	int width, height;
 
 	std::vector<std::vector<bool>> cellMap;
 
 	void Init();
+
+	void SetWidth(int width);
+	void SetHeight(int height);
 };

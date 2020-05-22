@@ -17,6 +17,9 @@ void Game::Init()
 	cellMap.resize(width, std::vector<bool>(height, CELL_DEAD));
 }
 
+void Game::SetWidth(int width) { this->width = width; }
+void Game::SetHeight(int height) { this->height = height; }
+
 void Game::Reset() { Init(); }
 
 void Game::Random()
@@ -38,7 +41,7 @@ void Game::SimulationStep()
 {
 	int neighbors;
 
-	Game tmp(GetWidth(), GetHeight());
+	Game tmpGame(GetWidth(), GetHeight());
 
 	for (int x = 0; x < GetWidth(); x++)
 	{
@@ -48,15 +51,66 @@ void Game::SimulationStep()
 
 			// Rules
 			if ((neighbors == 2 || neighbors == 3) && GetState(x, y))
-				tmp.SetState(x, y, CELL_ALIVE);
+				tmpGame.SetState(x, y, CELL_ALIVE);
 			else if (neighbors == 3)
-				tmp.SetState(x, y, CELL_ALIVE);
+				tmpGame.SetState(x, y, CELL_ALIVE);
 			else
-				tmp.SetState(x, y, CELL_DEAD);
+				tmpGame.SetState(x, y, CELL_DEAD);
 		}
 	}
 
-	cellMap = tmp.cellMap;
+	cellMap = tmpGame.cellMap;
+}
+
+FILE_STATUS Game::LoadGame(const char* file)
+{
+	bool tmpState;
+	int tmpWidth, tmpHeight;
+
+	std::ifstream inFile;
+	inFile.open(file);
+
+	if (inFile.is_open())
+	{
+		inFile >> tmpWidth >> tmpHeight;
+		inFile.ignore(1, '\n');
+
+		if (tmpWidth > GetWidth() || tmpHeight > GetHeight())
+		{
+			return MAP_SIZE_FAIL;
+		}
+		else
+		{
+			Game tmpGame(tmpWidth, tmpHeight);
+
+			std::cout << tmpGame.GetWidth() << std::endl;
+			std::cout << tmpGame.GetHeight() << std::endl;
+
+			getchar();
+
+			for (int x = 0; x < tmpGame.GetWidth(); x++)
+			{
+				for (int y = 0; y < tmpGame.GetHeight(); y++)
+				{
+					inFile >> tmpState;
+
+					tmpGame.SetState(x, y, tmpState);
+
+					inFile.ignore(1, ',');
+				}
+
+				
+			}
+
+			cellMap = tmpGame.cellMap;
+		}
+	}
+	else
+	{
+		return NOT_FOUND;
+	}
+
+	return LOADED;
 }
 
 void Game::ShowMap()
