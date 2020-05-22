@@ -10,4 +10,4 @@ Initial Birth = Random
 ```
 Result:
 
-![Simulation Preview GIF](capture/simulation.gif)
+<img src="capture/simulation.gif" width="120%">
