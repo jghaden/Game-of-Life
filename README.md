@@ -9,4 +9,5 @@ Height = 50
 Initial Birth = Random
 ```
 Result:
+
 ![Simulation Preview GIF](capture/simulation.gif)
