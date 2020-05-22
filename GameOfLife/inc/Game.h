@@ -24,6 +24,7 @@ public:
 	void SimulationStep();
 	FILE_STATUS LoadGame(const char* file);
 	void ShowMap();
+	void Info();
 
 	// Getters
 	bool GetState(int x, int y);
@@ -34,7 +35,7 @@ public:
 	// Setters
 	void SetState(int x, int y, bool state);
 private:
-	int width, height;
+	int width, height, generation, population;
 
 	std::vector<std::vector<bool>> cellMap;
 

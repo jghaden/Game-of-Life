@@ -5,16 +5,17 @@
 Game::Game(int width, int height)
 {
 	this->width = width;
-	this->height = height;
+	this->height = height;	
 
 	Init();
 }
 
 void Game::Init()
 {
-	cellMap.clear();
+	this->generation = 0;
 
-	cellMap.resize(width, std::vector<bool>(height, CELL_DEAD));
+	cellMap.clear();
+	cellMap.resize(height, std::vector<bool>(width, CELL_DEAD));
 }
 
 void Game::SetWidth(int width) { this->width = width; }
@@ -26,9 +27,9 @@ void Game::Random()
 {
 	bool state;
 
-	for (int x = 0; x < GetWidth(); x++)
+	for (int y = 0; y < GetHeight(); y++)
 	{
-		for (int y = 0; y < GetHeight(); y++)
+		for (int x = 0; x < GetWidth(); x++)
 		{
 			state = static_cast<bool>(rand() % 2);
 
@@ -43,9 +44,9 @@ void Game::SimulationStep()
 
 	Game tmpGame(GetWidth(), GetHeight());
 
-	for (int x = 0; x < GetWidth(); x++)
+	for (int y = 0; y < GetHeight(); y++)
 	{
-		for (int y = 0; y < GetHeight(); y++)
+		for (int x = 0; x < GetWidth(); x++)
 		{
 			neighbors = GetNeighbors(x, y);
 
@@ -58,6 +59,8 @@ void Game::SimulationStep()
 				tmpGame.SetState(x, y, CELL_DEAD);
 		}
 	}
+
+	generation++;
 
 	cellMap = tmpGame.cellMap;
 }
@@ -88,9 +91,9 @@ FILE_STATUS Game::LoadGame(const char* file)
 
 			getchar();
 
-			for (int x = 0; x < tmpGame.GetWidth(); x++)
+			for (int y = 0; y < GetHeight(); y++)
 			{
-				for (int y = 0; y < tmpGame.GetHeight(); y++)
+				for (int x = 0; x < GetWidth(); x++)
 				{
 					inFile >> tmpState;
 
@@ -115,9 +118,9 @@ FILE_STATUS Game::LoadGame(const char* file)
 
 void Game::ShowMap()
 {
-	for (int x = 0; x < GetWidth(); x++)
+	for (int y = 0; y < GetHeight(); y++)
 	{
-		for (int y = 0; y < GetHeight(); y++)
+		for (int x = 0; x < GetWidth(); x++)
 		{
 			if (GetState(x, y))
 			{
@@ -133,8 +136,15 @@ void Game::ShowMap()
 	}
 }
 
+void Game::Info()
+{
+	gotoXY(0, GetHeight() + 1);
+
+	std::cout << "Generation: " << generation << std::endl;
+}
+
 // Getters
-bool Game::GetState(int x, int y) { return cellMap[x][y]; }
+bool Game::GetState(int x, int y) { return cellMap[y][x]; }
 int Game::GetWidth() { return width; }
 int Game::GetHeight() { return height; }
 
@@ -145,8 +155,8 @@ int Game::GetNeighbors(int x, int y)
 	{
 		for (int j = -1; j < 2; j++)
 		{
-			int neighbor_x = x + i;
 			int neighbor_y = y + j;
+			int neighbor_x = x + i;
 
 			if ((i == 0 && j == 0) || (neighbor_x < 0 || neighbor_y < 0 || neighbor_x >= GetWidth() || neighbor_y >= GetHeight()))
 			{
@@ -169,4 +179,4 @@ int Game::GetNeighbors(int x, int y)
 }
 
 // Setters
-void Game::SetState(int x, int y, bool state) { cellMap[x][y] = state; }
+void Game::SetState(int x, int y, bool state) { cellMap[y][x] = state; }
