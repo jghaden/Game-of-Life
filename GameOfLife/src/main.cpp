@@ -26,17 +26,13 @@ int main(void)
 
 		//game.SetState(40, 12, CELL_ALIVE);
 
-		game.LoadGame("games/glider.bin");
+		//game.LoadGame("games/glider.bin");
 
-		//game.Random();
+		game.Random();
 
-		getchar(); // FOR OBS
-
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 500; i++)
 		{
 			game.ShowMap();
-
-			//getchar();
 
 			game.SimulationStep();
 
